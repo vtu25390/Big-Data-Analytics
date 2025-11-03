@@ -1,0 +1,47 @@
+Date: 13-08-25
+
+
+ls 
+ 
+cd /tmp/ 
+ 
+cat input1.txt 
+ 
+hdfs dfs -mkdir /user 
+ 
+hdfs dfs -mkdir /user/root 
+ 
+hdfs dfs -mkdir /user/root/input 
+ 
+hdfs dfs -put input1.txt /user/root/input/ 
+ 
+hdfs dfs -cat /user/root/input/input1.txt 
+ 
+hadoop jar hadoop-mapreduce-examples-2.7.1-sources.jar org.apache.hadoop.examples.WordCount input output 
+ 
+ 
+Input File: input1.txt 
+ 
+Hadoop is an open source framework based on Java that manages the storage and processing of large amounts of data for applications.  Hadoop uses distributed storage and parallel processing to handle big data and analytics jobs, breaking workloads down into smaller workloads that can be run at the same time. 
+
+output : 
+hadoop 2
+java 1
+amounts 1
+an 1
+analytics 1
+and 3
+application 1
+at 1
+based 1
+be 1
+big 1
+breaking 1
+can 1
+data 2
+distributed 1
+down 1
+for 1
+framework 1
+handle 1
+into 1

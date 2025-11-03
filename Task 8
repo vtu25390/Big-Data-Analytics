@@ -1,0 +1,30 @@
+Date: 17-09-25
+
+Hive Basic Commands: 
+Show Databases: SHOW DATABASES; 
+Use Database: 
+USE database_name; Show Tables: 
+SHOW TABLES; 
+Create a Database: 
+CREATE DATABASE new_database; 
+
+Create a Table: 
+CREATE TABLE my_table ( 
+    id INT, 
+    name STRING,     age INT 
+); 
+Load Data into a Table: 
+LOAD DATA LOCAL INPATH '/path/to/datafile.csv' OVERWRITE INTO TABLE my_table; Query Data: 
+SELECT * FROM my_table WHERE age > 25; Insert Data into a Table: 
+INSERT INTO TABLE my_table VALUES (1, 'John', 30); Describe Table: 
+DROP TABLE my_table; 
+
+
+output :
+
+id    name    salary 
+1     lisa    30000
+2     umesh   90000
+3     lasya   60000
+4     sasi    80000
+5     usha    50000    

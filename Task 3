@@ -1,0 +1,174 @@
+Date: 06-08-25
+
+
+SELECT
+    b.brand_name AS brand,
+    c.category_name AS category,
+    p.model_year,
+    round(
+        SUM (
+            quantity * i.list_price * (1 - discount)
+        ),
+        0
+    ) sales INTO sales.sales_summary
+FROM
+    sales.order_items i
+INNER JOIN production.products p ON p.product_id = i.product_id
+INNER JOIN production.brands b ON b.brand_id = p.brand_id
+INNER JOIN production.categories c ON c.category_id = p.category_id
+GROUP BY
+    b.brand_name,
+    c.category_name,
+    p.model_year
+ORDER BY
+    b.brand_name,
+    c.category_name,
+    p.model_year;
+
+
+output : 
+
+brand	category	sales
+Nike	Shoes	1000
+Nike	Shirts	500
+Adidas	Shoes	800
+Adidas	Shirts	400
+Nike	NULL	1500
+Adidas	NULL	1200
+NULL	Shoes	1800
+NULL	Shirts	900
+NULL	NULL	2700
+SELECT
+    d1,
+    d2,
+    d3,
+    aggregate_function (c4)
+FROM
+    table_name
+GROUP BY
+    d1,
+    CUBE (d2, d3);
+
+
+SELECT
+    brand,
+    category,
+    SUM (sales) sales
+FROM
+    sales.sales_summary
+GROUP BY
+    CUBE(brand, category);
+
+
+SELECT
+    d1,
+    d2,
+    d3,
+    aggregate_function(c4)
+FROM
+    table_name
+GROUP BY
+    ROLLUP (d1, d2, d3);
+
+
+SELECT
+    brand,
+    category,
+    SUM (sales) sales
+FROM
+    sales.sales_summary
+GROUP BY
+    ROLLUP(brand, category);
+
+
+SELECT
+    brand,
+    category,
+    SUM (sales) sales
+FROM
+    sales.sales_summary
+GROUP BY
+    ROLLUP(brand, category)
+HAVING SUM (sales) > 20000;
+
+
+SELECT
+    *
+FROM
+    sales.customers
+WHERE
+    state = 'CA';
+
+
+SELECT
+    city,
+    COUNT (*)
+FROM
+    sales.customers
+WHERE
+    state = 'CA'
+GROUP BY
+    city
+HAVING
+    COUNT (*) > 10
+ORDER BY
+    city;
+
+SELECT 
+    category_name, 
+    product_id
+FROM 
+    production.products p
+    INNER JOIN production.categories c 
+        ON c.category_id = p.category_id
+
+SELECT * FROM (
+    SELECT 
+        category_name, 
+        product_id
+    FROM 
+        production.products p
+        INNER JOIN production.categories c 
+            ON c.category_id = p.category_id
+) t
+
+	Third, apply the PIVOT operator:
+SELECT * FROM   
+(
+    SELECT 
+        category_name, 
+        product_id
+    FROM 
+        production.products p
+        INNER JOIN production.categories c 
+            ON c.category_id = p.category_id
+) t 
+PIVOT(
+    COUNT(product_id) 
+    FOR category_name IN (
+        [Children Bicycles], 
+        [Comfort Bicycles], 
+        [Cruisers Bicycles], 
+        [Cyclocross Bicycles], 
+        [Electric Bikes], 
+        [Mountain Bikes], 
+        [Road Bikes])
+) AS pivot_table;
+
+
+Sample Dataset :
+event_id,location_id,lat,lon,timestamp_iso,speed_kmph,source
+e1,L1,12.9716,77.5946,2025-10-31T10:00:05,35,google_maps
+e2,L1,12.9716,77.5946,2025-10-31T10:00:20,30,google_maps
+e3,L2,12.9352,77.6245,2025-10-31T10:00:12,20,google_maps
+e4,L1,12.9716,77.5946,2025-10-31T10:01:07,25,google_maps
+e5,L2,12.9352,77.6245,2025-10-31T10:01:30,22,google_maps
+e6,L3,12.9081,77.6476,2025-10-31T10:00:50,50,google_maps
+
+output : 
+location_id	minute_ts	avg_speed	event_count
+L1	2025-10-31 10:00	32.50	2
+L2	2025-10-31 10:00	20.00	1
+L3	2025-10-31 10:00	50.00	1
+L1	2025-10-31 10:01	25.00	1
+L2	2025-10-31 10:01	22.00	1
